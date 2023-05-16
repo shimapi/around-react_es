@@ -1,6 +1,32 @@
 import React from "react";
+import PopupWithForm from "./PopupWithForm.jsx";
 
 const Main = () => {
+	const modalAddPlace = {
+		modalName: "add-place",
+		modalId: "addPlace",
+		modalTitle: "Nuevo Lugar",
+		modalButton: "Crear",
+	};
+	const modalEditAvatar = {
+		modalName: "edit-avatar",
+		modalId: "editAvatar",
+		modalTitle: "Cambiar foto de perfil",
+		modalButton: "Guardar",
+	};
+	const modalDeleteCard = {
+		modalName: "delete-card",
+		modalId: "deleteCard",
+		modalTitle: "¿Estás segur@?",
+		modalButton: "Sí, quiero borrar esto!",
+	};
+	const modalEditProfile = {
+		modalName: "edit-profile",
+		modalId: "editProfile",
+		modalTitle: "Editar Perfil",
+		modalButton: "Guardar",
+	};
+
 	return (
 		<>
 			<main className="main main-cards">
@@ -26,7 +52,12 @@ const Main = () => {
 				</template>
 			</main>
 
-			<div className="modal edit-profile" id="editProfile">
+			<PopupWithForm modal={modalAddPlace} />
+			<PopupWithForm modal={modalEditAvatar} />
+			<PopupWithForm modal={modalEditProfile} />
+			<PopupWithForm modal={modalDeleteCard} />
+
+			{/* 			<div className="modal edit-profile" id="editProfile">
 				<div className="modal__container edit-profile__container">
 					<button className="close button-close"></button>
 
@@ -167,7 +198,7 @@ const Main = () => {
 						</fieldset>
 					</form>
 				</div>
-			</div>
+			</div> */}
 		</>
 	);
 };
