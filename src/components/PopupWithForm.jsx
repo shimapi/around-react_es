@@ -1,8 +1,10 @@
 import React from "react";
+import capitalizeString from "../utils/capitalizeString.js";
 
 const PopupWithForm = (props) => {
-	console.log(props);
-
+	/* 	function isOpen(){
+    isOpen ? 'popup_is-opened' : ''
+  } */
 	return (
 		<div
 			className={`modal ${props.modal.modalName}`}
@@ -22,17 +24,17 @@ const PopupWithForm = (props) => {
 							{props.modal.modalTitle}
 						</h2>
 						<input
-							type="text"
-							id={`${props.modal.modalName}__name`}
-							name={`${props.modal.modalId}Name`}
-							className={`form__input modal__input ${props.modal.modalName}__input ${props.modal.modalName}__name`}
+							type={props.modal.modalInputs[0]?.inputType}
+							id={`${props.modal.modalName}__${props.modal.modalInputs[0]?.inputName}`}
+							name={`${props.modal.modalId}${capitalizeString}`}
+							className={`form__input modal__input ${props.modal.modalName}__input ${props.modal.modalName}__${props.modal.modalInputs[0]?.inputName}`}
 							required
-							minLength="2"
-							maxLength="40"
-							data-target="name"
+							minLength={props.modal.modalInputs[0]?.minLength}
+							maxLength={props.modal.modalInputs[0]?.maxLength}
+							data-target={props.modal.modalInputs[0]?.inputName}
 						/>
 						<span
-							className={`${props.modal.modalName}__name-error form__input-error`}
+							className={`${props.modal.modalName}__${props.modal.modalInputs[0]?.inputName}-error form__input-error`}
 						></span>
 
 						<input
@@ -60,3 +62,17 @@ const PopupWithForm = (props) => {
 };
 
 export default PopupWithForm;
+//para poner la 1º letra en mayúscula.
+
+/* 	function capitalizeString() {
+		if (props.modal.modalInputs[0]?.inputName) {
+			const toCapitalizeInputName = props.modal.modalInputs[0]?.inputName;
+			let firstCharacter = toCapitalizeInputName.charAt(0);
+			firstCharacter = firstCharacter.toUpperCase();
+			let capitalizedInputName =
+				firstCharacter + toCapitalizeInputName.slice(1);
+			console.log(props.modal.modalName, capitalizedInputName);
+		} else {
+			console.log("x no tiene inputName");
+		}
+	} */
