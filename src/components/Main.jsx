@@ -1,23 +1,23 @@
 import React, { useState } from "react";
 import PopupWithForm from "./PopupWithForm.jsx";
 import { useApi, originURL } from "../custom-hooks/useApi.jsx";
-
 import {
 	modalEditProfile,
 	modalAddPlace,
 	modalEditAvatar,
 	modalDeleteCard,
 } from "../utils/constants.js";
+import Cards from "./Cards.jsx";
 
 const Main = (props) => {
-	const [user, userError, userLoading] = useApi(`${originURL}/users/me`, "GET");
-	console.log(user);
-	console.log(user.name);
+	//const [user, userError, userLoading] = useApi(`${originURL}/users/me`, "GET");
+	/* 	console.log(user);
+	console.log(user.name); */
 
-	const [userName, setUserName] = useState(user.name);
+	/* 	const [userName, setUserName] = useState(user.name);
 	const [userDescription, setUserDescription] = useState(user.about);
 	const [userAvatar, setUserAvatar] = useState(user.avatar);
-
+ */
 	return (
 		<>
 			<section className="owner">
@@ -34,7 +34,7 @@ const Main = (props) => {
 				</div>
 				<div className="main-text">
 					<div className="main-text__container">
-						<h1 className="main-text__name">{userName}</h1>
+						<h1 className="main-text__name">{/* userName */}</h1>
 						<button
 							className="button button-edit"
 							data-target="#editProfile"
@@ -52,28 +52,8 @@ const Main = (props) => {
 					onClick={props.isAddPlacePopupOpen}
 				></button>
 			</section>
-			<main className="main main-cards">
-				<template className="card-template">
-					<article className="card">
-						<section className="card__photo">
-							<button className="button-delete"></button>
-							<img
-								src=" "
-								alt=""
-								className="card__image"
-								data-target="#photoPopUp"
-							/>
-						</section>
-						<section className="card__name">
-							<h3 className="card__title"></h3>
-							<section className="card__like">
-								<button className="button-like"></button>
-								<span className="count-likes">3</span>
-							</section>
-						</section>
-					</article>
-				</template>
-			</main>
+
+			<Cards />
 
 			<PopupWithForm modal={modalAddPlace} />
 			<PopupWithForm modal={modalEditAvatar} />

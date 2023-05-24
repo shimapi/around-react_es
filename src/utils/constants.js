@@ -7,12 +7,14 @@ export const modalAddPlace = {
 	modalButton: "Crear",
 	modalInputs: [
 		{
+			inputId: 1,
 			inputName: "name",
 			inputType: "text",
 			minLength: 2,
 			maxLength: 30,
 		},
 		{
+			inputId: 2,
 			inputName: "link",
 			inputType: "URL",
 			minLength: 2,
@@ -27,6 +29,7 @@ export const modalEditAvatar = {
 	modalButton: "Guardar",
 	modalInputs: [
 		{
+			inputId: 1,
 			inputName: "name",
 			inputType: "URL",
 			minLength: 10,
@@ -48,12 +51,14 @@ export const modalEditProfile = {
 	modalButton: "Guardar",
 	modalInputs: [
 		{
+			inputId: 1,
 			inputName: "name",
 			inputType: "text",
 			minLength: 2,
 			maxLength: 40,
 		},
 		{
+			inputId: 2,
 			inputName: "about",
 			inputType: "text",
 			minLength: 2,
