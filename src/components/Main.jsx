@@ -14,6 +14,10 @@ const Main = (props) => {
 	console.log(user);
 	console.log(user.name);
 
+	const [userName, setUserName] = useState(user.name);
+	const [userDescription, setUserDescription] = useState(user.about);
+	const [userAvatar, setUserAvatar] = useState(user.avatar);
+
 	return (
 		<>
 			<section className="owner">
@@ -30,7 +34,7 @@ const Main = (props) => {
 				</div>
 				<div className="main-text">
 					<div className="main-text__container">
-						<h1 className="main-text__name">{/* user.name */}</h1>
+						<h1 className="main-text__name">{userName}</h1>
 						<button
 							className="button button-edit"
 							data-target="#editProfile"
