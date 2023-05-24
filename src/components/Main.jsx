@@ -1,81 +1,28 @@
 import React, { useState } from "react";
 import PopupWithForm from "./PopupWithForm.jsx";
-import api from "../utils/api.js";
+import { useApi, originURL } from "../custom-hooks/useApi.jsx";
+
+import {
+	modalEditProfile,
+	modalAddPlace,
+	modalEditAvatar,
+	modalDeleteCard,
+} from "../utils/constants.js";
 
 const Main = (props) => {
-	const [userName, setUserName] = React.useState(0);
-	const [userDescription, setUserDescription] = React.useState(0);
-	const [userAvatar, setUserAvatar] = React.useState(0);
-
-	//esta es la configuración de cada modal.
-	//con esto armaré cada modal
-	const modalAddPlace = {
-		modalName: "add-place",
-		modalId: "addPlace",
-		modalTitle: "Nuevo Lugar",
-		modalButton: "Crear",
-		modalInputs: [
-			{
-				inputName: "name",
-				inputType: "text",
-				minLength: 2,
-				maxLength: 30,
-			},
-			{
-				inputName: "link",
-				inputType: "URL",
-				minLength: 2,
-				maxLength: 200,
-			},
-		],
-	};
-	const modalEditAvatar = {
-		modalName: "edit-avatar",
-		modalId: "editAvatar",
-		modalTitle: "Cambiar foto de perfil",
-		modalButton: "Guardar",
-		modalInputs: [
-			{
-				inputName: "name",
-				inputType: "URL",
-				minLength: 10,
-				maxLength: 255,
-			},
-		],
-	};
-	const modalDeleteCard = {
-		modalName: "delete-card",
-		modalId: "deleteCard",
-		modalTitle: "¿Estás segur@?",
-		modalButton: "Sí, quiero borrar esto!",
-		modalInputs: [],
-	};
-	const modalEditProfile = {
-		modalName: "edit-profile",
-		modalId: "editProfile",
-		modalTitle: "Editar Perfil",
-		modalButton: "Guardar",
-		modalInputs: [
-			{
-				inputName: "name",
-				inputType: "text",
-				minLength: 2,
-				maxLength: 40,
-			},
-			{
-				inputName: "about",
-				inputType: "text",
-				minLength: 2,
-				maxLength: 200,
-			},
-		],
-	};
+	const [user, userError, userLoading] = useApi(`${originURL}/users/me`, "GET");
+	console.log(user);
+	console.log(user.name);
 
 	return (
 		<>
 			<section className="owner">
 				<div className="avatar">
-					<img className="avatar__circle" src=" " alt="Foto de perfil" />
+					<img
+						className="avatar__circle"
+						src="{/* user.avatar */}"
+						alt="Foto de perfil"
+					/>
 					<button
 						className="avatar__edit"
 						onClick={props.isEditAvatarPopupOpen}
@@ -83,14 +30,14 @@ const Main = (props) => {
 				</div>
 				<div className="main-text">
 					<div className="main-text__container">
-						<h1 className="main-text__name"></h1>
+						<h1 className="main-text__name">{/* user.name */}</h1>
 						<button
 							className="button button-edit"
 							data-target="#editProfile"
 							onClick={props.isEditProfilePopupOpen}
 						></button>
 					</div>
-					<h2 className="main-text__about"></h2>
+					<h2 className="main-text__about">{/* user.about */}</h2>
 				</div>
 			</section>
 
