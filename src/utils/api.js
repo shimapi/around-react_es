@@ -83,3 +83,5 @@ export class Api {
 		return dislikesCard;
 	}
 }
+
+export const api = new Api();
