@@ -1,6 +1,6 @@
 import React from "react";
 
-const Cards = (props) => {
+const Card = (props) => {
 	function handleCardPhotoClick() {
 		props.onOpenImage(props);
 	}
@@ -27,4 +27,4 @@ const Cards = (props) => {
 	);
 };
 
-export default Cards;
+export default Card;

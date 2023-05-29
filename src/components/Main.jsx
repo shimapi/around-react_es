@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm.jsx";
-import Cards from "./Cards.jsx";
+import Card from "./Card.jsx";
 import { api } from "../utils/api.js";
 import ImagePopup from "./ImagePopup.jsx";
 
@@ -62,7 +62,7 @@ const Main = (props) => {
 			<main className="main main-cards">
 				{cards.map((card) => {
 					return (
-						<Cards
+						<Card
 							key={card._id}
 							name={card.name}
 							link={card.link}
