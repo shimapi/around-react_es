@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm.jsx";
 import { useApi, originURL } from "../custom-hooks/useApi.jsx";
 import {
@@ -10,21 +10,34 @@ import {
 import Cards from "./Cards.jsx";
 
 const Main = (props) => {
-	//const [user, userError, userLoading] = useApi(`${originURL}/users/me`, "GET");
-	/* 	console.log(user);
-	console.log(user.name); */
+	const [user, userError, userLoading] = useApi(`${originURL}/users/me`, "GET");
+	const [userName, setUserName] = useState("");
+	const [userAbout, setUserAbout] = useState("");
+	const [userAvatar, setUserAvatar] = useState("");
 
-	/* 	const [userName, setUserName] = useState(user.name);
-	const [userDescription, setUserDescription] = useState(user.about);
-	const [userAvatar, setUserAvatar] = useState(user.avatar);
- */
+	useEffect(() => {
+		if (user && userLoading === false) {
+			setUserName(user.name);
+			setUserAbout(user.about);
+			setUserAvatar(user.avatar);
+		} else {
+			setUserName("Cargando...");
+			setUserAbout("Cargando...");
+			/* setUserAvatar(); */
+		}
+
+		if (userError && userLoading === false) {
+			console.log(userError);
+		}
+	}, [user, userLoading]);
+
 	return (
 		<>
 			<section className="owner">
 				<div className="avatar">
 					<img
 						className="avatar__circle"
-						src="{/* user.avatar */}"
+						src={userAvatar}
 						alt="Foto de perfil"
 					/>
 					<button
@@ -34,14 +47,14 @@ const Main = (props) => {
 				</div>
 				<div className="main-text">
 					<div className="main-text__container">
-						<h1 className="main-text__name">{/* userName */}</h1>
+						<h1 className="main-text__name">{userName}</h1>
 						<button
 							className="button button-edit"
 							data-target="#editProfile"
 							onClick={props.isEditProfilePopupOpen}
 						></button>
 					</div>
-					<h2 className="main-text__about">{/* user.about */}</h2>
+					<h2 className="main-text__about">{userAbout}</h2>
 				</div>
 			</section>
 

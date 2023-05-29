@@ -2,7 +2,6 @@ import React from "react";
 import capitalizeString from "../utils/capitalizeString.js";
 
 const PopupWithForm = (props) => {
-	console.log("PopupWithForm");
 	return (
 		<div
 			className={`modal ${props.modal.modalName}`}
