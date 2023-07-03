@@ -82,6 +82,15 @@ export class Api {
 		);
 		return dislikesCard;
 	}
+
+	async changeLikeCardStatus(cardId, isLiked) {
+		const changingLikeCardStatus = isLiked
+			? this.dislikeCard(cardId)
+			: this.likeCard(cardId);
+		return changingLikeCardStatus;
+	}
 }
 
-export const api = new Api();
+const api = new Api();
+
+export default api;

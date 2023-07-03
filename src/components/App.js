@@ -1,15 +1,29 @@
 import "../index.css";
-import React, { useState } from "react";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import React, { useState, useEffect } from "react";
 import Header from "./Header.jsx";
 import Main from "./Main.jsx";
 import Footer from "./Footer.jsx";
+import api from "../utils/api";
 
 function App() {
+	const [currentUser, setCurrentUser] = useState({});
 	const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
 	const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
 	const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
 	const [isImageOpen, setIsImageOpen] = useState(false);
 	const [selectedCard, setSelectedCard] = useState({});
+
+	useEffect(() => {
+		api
+			.getProfileInitialInfo()
+			.then((res) => {
+				setCurrentUser(res);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}, []);
 
 	function handleEditProfileClick() {
 		setIsEditProfilePopupOpen(true);
@@ -32,20 +46,22 @@ function App() {
 	}
 	return (
 		<div className="App container">
-			<Header />
-			<Main
-				isEditProfilePopupOpen={isEditProfilePopupOpen}
-				isAddPlacePopupOpen={isAddPlacePopupOpen}
-				isEditAvatarPopupOpen={isEditAvatarPopupOpen}
-				onEditProfileClick={handleEditProfileClick}
-				onAddPlaceClick={handleAddPlaceClick}
-				onEditAvatarClick={handleEditAvatarClick}
-				closeAllPopups={closeAllPopups}
-				isImageOpen={isImageOpen}
-				onOpenImage={handleImageOpenClick}
-				selectedCard={selectedCard}
-			/>
-			<Footer />
+			<CurrentUserContext.Provider value={currentUser}>
+				<Header />
+				<Main
+					isEditProfilePopupOpen={isEditProfilePopupOpen}
+					isAddPlacePopupOpen={isAddPlacePopupOpen}
+					isEditAvatarPopupOpen={isEditAvatarPopupOpen}
+					onEditProfileClick={handleEditProfileClick}
+					onAddPlaceClick={handleAddPlaceClick}
+					onEditAvatarClick={handleEditAvatarClick}
+					closeAllPopups={closeAllPopups}
+					isImageOpen={isImageOpen}
+					onOpenImage={handleImageOpenClick}
+					selectedCard={selectedCard}
+				/>
+				<Footer />
+			</CurrentUserContext.Provider>
 		</div>
 	);
 }

@@ -1,28 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import PopupWithForm from "./PopupWithForm.jsx";
 import Card from "./Card.jsx";
-import { api } from "../utils/api.js";
+import api from "../utils/api.js";
 import ImagePopup from "./ImagePopup.jsx";
+import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 
 const Main = (props) => {
-	const [userName, setUserName] = useState("");
-	const [userAbout, setUserAbout] = useState("");
-	const [userAvatar, setUserAvatar] = useState("");
 	const [cards, setCards] = useState([]);
+	const currentUser = useContext(CurrentUserContext);
 
-	useEffect(() => {
-		api.getProfileInitialInfo().then((res) => {
-			setUserName(res.name);
-			setUserAbout(res.about);
-			setUserAvatar(res.avatar);
-			console.log("probando");
+	function handleCardLike(card) {
+		// Verifica una vez más si a esta tarjeta ya le han dado like
+		const isLiked = card.likes.some((i) => i._id === currentUser._id);
+
+		// Envía una petición a la API y obtén los datos actualizados de la tarjeta
+		api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
+			setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
 		});
-	}, []);
+	}
 
 	useEffect(() => {
 		api.getCards().then((res) => {
 			setCards(res);
-			console.log("probando2");
 		});
 	}, []);
 
@@ -32,8 +31,8 @@ const Main = (props) => {
 				<div className="avatar">
 					<img
 						className="avatar__circle"
-						src={userAvatar}
-						alt={`Foto de perfil de ${userName}`}
+						src={currentUser.avatar}
+						alt={`Foto de perfil de ${currentUser.name}`}
 					/>
 					<button
 						className="avatar__edit"
@@ -43,14 +42,14 @@ const Main = (props) => {
 
 				<div className="main-text">
 					<div className="main-text__container">
-						<h1 className="main-text__name">{userName}</h1>
+						<h1 className="main-text__name">{currentUser.name}</h1>
 						<button
 							className="button button-edit"
 							data-target="#editProfile"
 							onClick={props.onEditProfileClick}
 						></button>
 					</div>
-					<h2 className="main-text__about">{userAbout}</h2>
+					<h2 className="main-text__about">{currentUser.about}</h2>
 				</div>
 			</section>
 			<section className="upload">
@@ -65,11 +64,14 @@ const Main = (props) => {
 				{cards.map((card) => {
 					return (
 						<Card
+							card={card}
 							key={card._id}
 							name={card.name}
 							link={card.link}
-							likes={card.likes.length}
+							likes={card.likes}
 							onOpenImage={props.onOpenImage}
+							owner={card.owner}
+							onCardLike={handleCardLike}
 						/>
 					);
 				})}
