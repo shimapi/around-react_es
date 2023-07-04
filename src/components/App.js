@@ -5,6 +5,8 @@ import Header from "./Header.jsx";
 import Main from "./Main.jsx";
 import Footer from "./Footer.jsx";
 import api from "../utils/api";
+import EditProfilePopup from "./EditProfilePopup.jsx";
+import EditAvatarPopup from "./EditAvatarPopup.jsx";
 
 function App() {
 	const [currentUser, setCurrentUser] = useState({});
@@ -24,6 +26,21 @@ function App() {
 				console.log(error);
 			});
 	}, []);
+
+	function handleUpdateUser(user) {
+		//logica para editar perfil
+		api.editProfileInfo(user.name, user.about).then((data) => {
+			setCurrentUser(data);
+			closeAllPopups();
+		});
+	}
+
+	function handleUpdateAvatar(avatar) {
+		api.editProfileAvatar(avatar).then((data) => {
+			setCurrentUser(data);
+			closeAllPopups();
+		});
+	}
 
 	function handleEditProfileClick() {
 		setIsEditProfilePopupOpen(true);
@@ -49,9 +66,7 @@ function App() {
 			<CurrentUserContext.Provider value={currentUser}>
 				<Header />
 				<Main
-					isEditProfilePopupOpen={isEditProfilePopupOpen}
 					isAddPlacePopupOpen={isAddPlacePopupOpen}
-					isEditAvatarPopupOpen={isEditAvatarPopupOpen}
 					onEditProfileClick={handleEditProfileClick}
 					onAddPlaceClick={handleAddPlaceClick}
 					onEditAvatarClick={handleEditAvatarClick}
@@ -61,6 +76,18 @@ function App() {
 					selectedCard={selectedCard}
 				/>
 				<Footer />
+
+				<EditProfilePopup
+					isOpen={isEditProfilePopupOpen}
+					onClose={closeAllPopups}
+					onUpdateUser={handleUpdateUser}
+				/>
+
+				<EditAvatarPopup
+					isOpen={isEditAvatarPopupOpen}
+					onClose={closeAllPopups}
+					onUpdateAvatar={handleUpdateAvatar}
+				/>
 			</CurrentUserContext.Provider>
 		</div>
 	);

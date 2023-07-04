@@ -85,8 +85,8 @@ export class Api {
 
 	async changeLikeCardStatus(cardId, isLiked) {
 		const changingLikeCardStatus = isLiked
-			? this.dislikeCard(cardId)
-			: this.likeCard(cardId);
+			? await this.dislikeCard(cardId)
+			: await this.likeCard(cardId);
 		return changingLikeCardStatus;
 	}
 }

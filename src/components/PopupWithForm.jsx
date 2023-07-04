@@ -10,7 +10,11 @@ const PopupWithForm = (props) => {
 
 					{props.children}
 
-					<button type="submit" className="button button-save">
+					<button
+						type="submit"
+						className="button button-save"
+						onClick={props.onSubmit}
+					>
 						{props.submitText}
 					</button>
 				</form>

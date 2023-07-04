@@ -3,6 +3,7 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 const Card = (props) => {
 	const currentUser = useContext(CurrentUserContext);
+
 	// Verificando si el usuario actual es el propietario de la tarjeta actual
 	const isOwn = props.owner._id === currentUser._id;
 	// Creando una variable que después establecerás en `className` para el botón eliminar
@@ -10,7 +11,6 @@ const Card = (props) => {
 
 	// Verifica si el usuario actual le dio "like" a la tarjeta
 	const isLiked = props.likes.some((card) => card._id === currentUser._id);
-	console.log(isLiked);
 	// Crea una variable que después establecerás en `className` para el botón like
 	const cardLikeButtonClassName = `button-like 
 		${isLiked ? "button-like-active" : ""}`;
@@ -18,10 +18,22 @@ const Card = (props) => {
 	function handleCardPhotoClick() {
 		props.onOpenImage(props);
 	}
+
+	function handleCardLike() {
+		props.onCardLike(props.card);
+	}
+
+	function handleCardDelete() {
+		props.onCardDelete(props.card);
+	}
+
 	return (
 		<article className="card" id={props.id}>
 			<section className="card__photo">
-				<button className={cardDeleteButtonClassName}></button>
+				<button
+					className={cardDeleteButtonClassName}
+					onClick={handleCardDelete}
+				></button>
 				<img
 					src={props.link}
 					alt={props.name}
@@ -35,10 +47,7 @@ const Card = (props) => {
 				<section className="card__like">
 					<button
 						className={cardLikeButtonClassName}
-						onClick={() => {
-							//para usar la funcion, requiero ejecutar la funcion
-							props.onCardLike(props.card);
-						}}
+						onClick={handleCardLike}
 					></button>
 					<span className="count-likes">{props.likes.length}</span>
 				</section>

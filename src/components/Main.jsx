@@ -14,8 +14,18 @@ const Main = (props) => {
 		const isLiked = card.likes.some((i) => i._id === currentUser._id);
 
 		// Envía una petición a la API y obtén los datos actualizados de la tarjeta
-		api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
+		api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
 			setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
+		});
+	}
+
+	function handleCardDelete(card) {
+		api.deleteCard(card._id).then(() => {
+			setCards(
+				cards.filter((item) => {
+					return item._id !== card._id;
+				})
+			);
 		});
 	}
 
@@ -72,6 +82,7 @@ const Main = (props) => {
 							onOpenImage={props.onOpenImage}
 							owner={card.owner}
 							onCardLike={handleCardLike}
+							onCardDelete={handleCardDelete}
 						/>
 					);
 				})}
@@ -109,51 +120,7 @@ const Main = (props) => {
 				/>
 				<span className="add-place__link-error form__input-error"></span>
 			</PopupWithForm>
-			<PopupWithForm
-				title="Editar Avatar"
-				submitText="Guardar"
-				isOpen={props.isEditAvatarPopupOpen}
-				onClose={props.closeAllPopups}
-			>
-				<input
-					type="URL"
-					id="edit-avatar__link"
-					name="editAvatarLink"
-					className="form__input modal__input edit-avatar__link"
-					placeholder="URL de la imagen"
-					required
-				/>
-				<span className="edit-avatar__link-error form__input-error"></span>
-			</PopupWithForm>
-			<PopupWithForm
-				title="Editar Perfil"
-				submitText="Guardar"
-				isOpen={props.isEditProfilePopupOpen}
-				onClose={props.closeAllPopups}
-			>
-				<input
-					type="text"
-					id="edit-profile__name"
-					name="editProfileName"
-					className="form__input modal__input edit-profile__input edit-profile__name"
-					required
-					minLength="2"
-					maxLength="40"
-					data-target="name"
-				/>
-				<span className="edit-profile__name-error form__input-error"></span>
-				<input
-					type="text"
-					id="edit-profile__about"
-					name="editProfileAbout"
-					className="form__input modal__input edit-profile__input edit-profile__about"
-					required
-					minLength="2"
-					maxLength="200"
-					data-target="about"
-				/>
-				<span className="edit-profile__about-error form__input-error"></span>
-			</PopupWithForm>
+
 			{/*
 			<div className="modal delete-card" id="deleteCard">
 				<div className="modal__container delete-card__container">
