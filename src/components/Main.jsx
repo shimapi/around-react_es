@@ -1,39 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
-import PopupWithForm from "./PopupWithForm.jsx";
+import React, { useContext } from "react";
 import Card from "./Card.jsx";
-import api from "../utils/api.js";
 import ImagePopup from "./ImagePopup.jsx";
 import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 
 const Main = (props) => {
-	const [cards, setCards] = useState([]);
 	const currentUser = useContext(CurrentUserContext);
-
-	function handleCardLike(card) {
-		// Verifica una vez más si a esta tarjeta ya le han dado like
-		const isLiked = card.likes.some((i) => i._id === currentUser._id);
-
-		// Envía una petición a la API y obtén los datos actualizados de la tarjeta
-		api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
-			setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
-		});
-	}
-
-	function handleCardDelete(card) {
-		api.deleteCard(card._id).then(() => {
-			setCards(
-				cards.filter((item) => {
-					return item._id !== card._id;
-				})
-			);
-		});
-	}
-
-	useEffect(() => {
-		api.getCards().then((res) => {
-			setCards(res);
-		});
-	}, []);
 
 	return (
 		<>
@@ -71,7 +42,7 @@ const Main = (props) => {
 			</section>
 
 			<main className="main main-cards">
-				{cards.map((card) => {
+				{props.cards.map((card) => {
 					return (
 						<Card
 							card={card}
@@ -81,8 +52,8 @@ const Main = (props) => {
 							likes={card.likes}
 							onOpenImage={props.onOpenImage}
 							owner={card.owner}
-							onCardLike={handleCardLike}
-							onCardDelete={handleCardDelete}
+							onCardLike={props.onCardLike}
+							onCardDelete={props.onCardDelete}
 						/>
 					);
 				})}
@@ -92,34 +63,6 @@ const Main = (props) => {
 				onClose={props.closeAllPopups}
 				selectedCard={props.selectedCard}
 			/>
-
-			<PopupWithForm
-				title="Añadir Lugar"
-				submitText="Crear"
-				isOpen={props.isAddPlacePopupOpen}
-				onClose={props.closeAllPopups}
-			>
-				<input
-					type="text"
-					id="add-place__name"
-					name="addPlaceName"
-					className="form__input modal__input add-place__name"
-					placeholder="Título"
-					required
-					minLength="2"
-					maxLength="30"
-				/>
-				<span className="add-place__name-error form__input-error"></span>
-				<input
-					type="URL"
-					id="add-place__link"
-					name="addPlaceLink"
-					className="form__input modal__input add-place__link"
-					placeholder="URL de la imagen"
-					required
-				/>
-				<span className="add-place__link-error form__input-error"></span>
-			</PopupWithForm>
 
 			{/*
 			<div className="modal delete-card" id="deleteCard">
