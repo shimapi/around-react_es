@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import Card from "./Card.jsx";
-import ImagePopup from "./ImagePopup.jsx";
+import Card from "./Card.js";
+import ImagePopup from "./ImagePopup.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 
 const Main = (props) => {

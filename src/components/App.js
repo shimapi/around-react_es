@@ -1,13 +1,13 @@
 import "../index.css";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import React, { useState, useEffect } from "react";
-import Header from "./Header.jsx";
-import Main from "./Main.jsx";
-import Footer from "./Footer.jsx";
+import Header from "./Header.js";
+import Main from "./Main.js";
+import Footer from "./Footer.js";
 import api from "../utils/api";
-import EditProfilePopup from "./EditProfilePopup.jsx";
-import EditAvatarPopup from "./EditAvatarPopup.jsx";
-import AddPlacePopup from "./AddPlacePopup.jsx";
+import EditProfilePopup from "./EditProfilePopup.js";
+import EditAvatarPopup from "./EditAvatarPopup.js";
+import AddPlacePopup from "./AddPlacePopup.js";
 
 function App() {
 	const [currentUser, setCurrentUser] = useState({});
