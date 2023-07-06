@@ -63,26 +63,6 @@ const Main = (props) => {
 				onClose={props.closeAllPopups}
 				selectedCard={props.selectedCard}
 			/>
-
-			{/*
-			<div className="modal delete-card" id="deleteCard">
-				<div className="modal__container delete-card__container">
-					<button className="close button-close"></button>
-
-					<form
-						className="delete-card__form form"
-						action="#"
-						name="deleteCard"
-						noValidate
-					>
-						<h2>¿Estás segur@?</h2>
-						<button type="submit" className="button button-save">
-							Sí, quiero borrar esto!
-						</button>
-					</form>
-				</div>
-			</div>
-			*/}
 		</>
 	);
 };
